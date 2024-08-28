@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Edge Data Entry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Fleet Edge Data Entry</h2>
+        <form id="fleetForm">
+            <div class="form-group">
+                <label for="vehicle-number">Vehicle Number</label>
+                <input type="text" id="vehicle-number" name="vehicle-number" required>
+            </div>
+
+            <div class="form-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Location</th>
+                            <th colspan="2">Truck In</th>
+                            <th colspan="2">Truck Out</th>
+                            <th rowspan="2">Total Running</th>
+                            <th rowspan="2">Total Time</th>
+                            <th rowspan="2">Total Fuel Consumed (Lt)</th>
+                        </tr>
+                        <tr>
+                            <th>Time</th>
+                            <th>Odometer Reading (km)</th>
+                            <th>Time</th>
+                            <th>Odometer Reading (km)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Loading Site</td>
+                            <td><input type="text" name="truckInTime1"></td>
+                            <td><input type="text" name="truckInOdometer1"></td>
+                            <td><input type="text" name="truckOutTime1"></td>
+                            <td><input type="text" name="truckOutOdometer1"></td>
+                            <td><input type="text" name="totalRunning1"></td>
+                            <td><input type="text" name="totalTime1"></td>
+                            <td><input type="text" name="totalFuel1"></td>
+                        </tr>
+                        <tr>
+                            <td>Unloading Site</td>
+                            <td><input type="text" name="truckInTime2"></td>
+                            <td><input type="text" name="truckInOdometer2"></td>
+                            <td><input type="text" name="truckOutTime2"></td>
+                            <td><input type="text" name="truckOutOdometer2"></td>
+                            <td><input type="text" name="totalRunning2"></td>
+                            <td><input type="text" name="totalTime2"></td>
+                            <td><input type="text" name="totalFuel2"></td>
+                        </tr>
+                        <tr>
+                            <td>Loading Site</td>
+                            <td><input type="text" name="truckInTime3"></td>
+                            <td><input type="text" name="truckInOdometer3"></td>
+                            <td><input type="text" name="truckOutTime3"></td>
+                            <td><input type="text" name="truckOutOdometer3"></td>
+                            <td><input type="text" name="totalRunning3"></td>
+                            <td><input type="text" name="totalTime3"></td>
+                            <td><input type="text" name="totalFuel3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="status-container">
+                <div class="status-section">
+                    <h3>Status - Loaded</h3>
+                    <!-- Form fields for 'Loaded' status -->
+                </div>
+                <div class="status-section">
+                    <h3>Status - Unloaded</h3>
+                    <!-- Form fields for 'Unloaded' status -->
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+                <button type="reset" class="reset-button">Reset</button>
+            </div>
+        </form>
+    </div>
+    <script>function submitForm() {
+        const form = document.getElementById('fleetForm');
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+    
+        fetch('https://script.google.com/macros/s/AKfycbxf_f8ZjRtxMk1wPZAT1k_xSdXDx2_SqzYy6RjtoLHqaNvx7kLYSZ0uUOBl9784KA/exec', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.result === 'success') {
+                alert('Form submitted successfully');
+                form.reset();
+            } else {
+                alert('There was an error submitting the form');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error submitting the form');
+        });
+    }
+    </script>
+</body>
+</html>
